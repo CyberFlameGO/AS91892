@@ -1,0 +1,44 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: DevSkim
+
+on:
+  push:
+    branches: 
+      - master
+      - renovate/**
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron: '23 8 * * 2'
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: DevSkim
+    runs-on: ubuntu-20.04
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@d91bb71c3867eeb2e7b36a602476fb5439443386
+        with:
+          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+      - name: Checkout code
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+
+      - name: Run DevSkim scanner
+        uses: microsoft/DevSkim-Action@430c605a9149e1c8f2d5ced90ec469e6ccdd858e
+        
+      - name: Upload DevSkim scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@7b66e72cb76ea122563956dfc4f672f60101fc15
+        with:
+          sarif_file: devskim-results.sarif
