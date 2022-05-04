@@ -11,9 +11,21 @@ body {
     padding: 8px;
 }
 
+p em {
+    color: dodgerblue;
+}
+
 h1 {
     border: 2px dodgerblue;
     padding: 6px;
     margin: auto;
     background-color: beige;
+}
+
+#title_heading {
+    background-color: hotpink;
+}
+
+.body {
+    background-color: chartreuse;
 }
