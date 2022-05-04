@@ -23,4 +23,4 @@ jobs:
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@3249cd32ec8282a946f945108a758c77260a1883
         with:
-          linter: jetbrains/qodana-<linter>
+          linter: jetbrains/qodana-python
