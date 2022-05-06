@@ -1,0 +1,18 @@
+{
+  "name": "as91892",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com:CyberFlameGO/AS91892.git"
+  },
+  "author": "",
+  "devDependencies": {
+    "stylelint": "^14.8.2",
+    "stylelint-config-standard": "^25.0.0"
+  }
+}
