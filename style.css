@@ -1,43 +1,31 @@
 html {
-  background-color: sienna;
-  color: aqua;
-  font-family: "Roboto Light", serif;
+    background-color: sienna;
+    color: aqua;
+    font-family: "Roboto Light";
 }
 
 body {
-  width: auto;
-  margin: auto;
-  background-color: aliceblue;
-  padding: 8px;
+    width: auto;
+    margin: auto;
+    background-color: aliceblue;
+    padding: 8px;
 }
 
 p em {
-  color: dodgerblue;
-}
-
-p:hover {
-  background-color: #ffd6ff;
-}
-
-:active {
-  background-color: rgb(255 214 255);
-}
-
-p:focus {
-  background-color: rgb(255 214 255);
+    color: dodgerblue;
 }
 
 h1 {
-  border: 2px dodgerblue;
-  padding: 6px;
-  margin: auto;
-  background-color: beige;
+    border: 2px dodgerblue;
+    padding: 6px;
+    margin: auto;
+    background-color: beige;
 }
 
-#title-heading {
-  background-color: hotpink;
+#title_heading {
+    background-color: hotpink;
 }
 
 .body {
-  background-color: chartreuse;
+    background-color: chartreuse;
 }
