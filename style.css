@@ -1,6 +1,6 @@
 html {
     background-color: teal;
-    font-family: Calibri;
+    font-family: Calibri, serif;
 }
 
 body {
@@ -13,7 +13,7 @@ body {
 
 #title_heading {
     color: #7fe1d4;
-    font-family: "Comic Sans MS";
+    font-family: "Comic Sans MS", serif;
 }
 
 #headerbody {
@@ -41,7 +41,7 @@ body {
     color: darkturquoise;
     border: #2f4f4f;
     background-color: darkslategrey;
-    font-family: Calibri;
+    font-family: Calibri, serif;
     font-size: large;
     cursor: pointer;
 }
