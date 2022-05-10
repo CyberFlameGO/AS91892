@@ -1,18 +1,13 @@
 html {
-    background-color: sienna;
-    color: aqua;
-    font-family: "Roboto Light";
+    background-color: teal;
+    font-family: Calibri;
 }
 
 body {
     width: auto;
     margin: auto;
-    background-color: aliceblue;
+    background-color: darkturquoise;
     padding: 8px;
-}
-
-p em {
-    color: dodgerblue;
 }
 
 
@@ -29,11 +24,44 @@ p em {
     border-bottom-right-radius: 3px;
 }
 
-.buttonarea {
+#buttonarea {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.button {
     text-align: center;
-    border-radius: 25px;
+    border-radius: 16px;
     padding: 8px;
-    color: teal;
-    border: royalblue;
+    width: 72px;
+    color: darkturquoise;
+    border: #2f4f4f;
+    background-color: darkslategrey;
+    font-family: Calibri;
+    font-size: large;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: rgb(58.75, 98.75, 98.75);
+}
+
+.button:active {
+    background-color: rgb(94, 158, 158);
+}
+
+
+#contents {
+    background-color: darkslategrey;
+    /* color: */
+}
+
+#contents h2 {
+    color: turquoise;
+    font-size: x-large;
 }
 
