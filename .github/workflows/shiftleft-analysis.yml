@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Harden Runner
-      uses: step-security/harden-runner@d91bb71c3867eeb2e7b36a602476fb5439443386
+      uses: step-security/harden-runner@ce396f501c5992abfa972a7afeb784989f3fcf73
       with:
         egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
@@ -55,6 +55,6 @@ jobs:
         # type: python
 
     - name: Upload report
-      uses: github/codeql-action/upload-sarif@7b66e72cb76ea122563956dfc4f672f60101fc15
+      uses: github/codeql-action/upload-sarif@dd56e95b460b59e664ca4143d8fc563bfd182865
       with:
         sarif_file: reports

@@ -33,7 +33,7 @@ jobs:
     steps:
       # Checkout the repository to the GitHub Actions runner
       - name: Harden Runner
-        uses: step-security/harden-runner@248ae51c2e8cc9622ecf50685c8bf7150c6e8813
+        uses: step-security/harden-runner@ce396f501c5992abfa972a7afeb784989f3fcf73
         with:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
@@ -42,7 +42,7 @@ jobs:
 
       # Execute Codacy Analysis CLI and generate a SARIF output with the security issues identified during the analysis
       - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@f38648320929161d81646834fbee4d75f6502aea
+        uses: codacy/codacy-analysis-cli-action@c26895f1fd4c2c8cb1674de14e66f25b6816f11e
         env:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
         with:
@@ -59,6 +59,6 @@ jobs:
 
       # Upload the SARIF file generated in the previous step
       - name: Upload SARIF results file
-        uses: github/codeql-action/upload-sarif@4b9396c1a3d1b8b171045b9bf1bab0eba51aedd8
+        uses: github/codeql-action/upload-sarif@dd56e95b460b59e664ca4143d8fc563bfd182865
         with:
           sarif_file: results.sarif
