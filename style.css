@@ -15,17 +15,25 @@ p em {
     color: dodgerblue;
 }
 
-h1 {
-    border: 2px dodgerblue;
-    padding: 6px;
-    margin: auto;
-    background-color: beige;
-}
 
 #title_heading {
-    background-color: hotpink;
+    color: #7fe1d4;
+    font-family: "Comic Sans MS";
 }
 
-.body {
-    background-color: chartreuse;
+#headerbody {
+    background-color: darkslategrey;
+    padding: 12px;
+    border-radius: 12.5px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
+
+.buttonarea {
+    text-align: center;
+    border-radius: 25px;
+    padding: 8px;
+    color: teal;
+    border: royalblue;
+}
+
