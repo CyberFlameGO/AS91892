@@ -1,67 +1,67 @@
 html {
-    background-color: teal;
-    font-family: Calibri, serif;
+  background-color: teal;
+  font-family: Calibri, serif;
 }
 
 body {
-    width: auto;
-    margin: auto;
-    background-color: darkturquoise;
-    padding: 8px;
+  width: auto;
+  margin: auto;
+  background-color: darkturquoise;
+  padding: 8px;
 }
 
 
 #title_heading {
-    color: #7fe1d4;
-    font-family: "Comic Sans MS", serif;
+  color: #7fe1d4;
+  font-family: "Comic Sans MS", serif;
 }
 
 #headerbody {
-    background-color: darkslategrey;
-    padding: 12px;
-    border-radius: 12.5px;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
+  background-color: darkslategrey;
+  padding: 12px;
+  border-radius: 12.5px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 
 #buttonarea {
-    width: 50%;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
+  width: 50%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
 }
 
 .button {
-    text-align: center;
-    border-radius: 16px;
-    padding: 8px;
-    width: 72px;
-    color: darkturquoise;
-    border: #2f4f4f;
-    background-color: darkslategrey;
-    font-family: Calibri, serif;
-    font-size: large;
-    cursor: pointer;
+  text-align: center;
+  border-radius: 16px;
+  padding: 8px;
+  width: 72px;
+  color: darkturquoise;
+  border: #2f4f4f;
+  background-color: darkslategrey;
+  font-family: Calibri, serif;
+  font-size: large;
+  cursor: pointer;
 }
 
 .button:hover {
-    background-color: rgb(58.75, 98.75, 98.75);
+  background-color: rgb(58.75, 98.75, 98.75);
 }
 
 .button:active {
-    background-color: rgb(94, 158, 158);
+  background-color: #5e9e9e;
 }
 
 
 #contents {
-    background-color: darkslategrey;
-    /* color: */
+  background-color: darkslategrey;
+  /* color: */
 }
 
 #contents h2 {
-    color: turquoise;
-    font-size: x-large;
+  color: turquoise;
+  font-size: x-large;
 }
 
