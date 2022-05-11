@@ -34,9 +34,9 @@ body {
 
 .button {
   text-align: center;
-  border-radius: 16px;
-  padding: 8px;
-  width: 72px;
+  border-radius: 32px;
+  padding: 2%;
+  width: 16%;
   color: darkturquoise;
   border: #2f4f4f;
   background-color: darkslategrey;
@@ -54,10 +54,18 @@ body {
 }
 
 #contents {
-  background-color: darkslategrey;
+  background-color: #046e78;
+  padding: 48px;
+  border-radius: 32px;
 }
 
 #contents h2 {
   color: turquoise;
   font-size: x-large;
+}
+
+.contents-box {
+  background-color: darkslategrey;
+  padding: 16px;
+  border-radius: 16px;
 }
