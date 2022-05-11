@@ -10,7 +10,7 @@ body {
   padding: 8px;
 }
 
-#title_heading {
+#title-heading {
   color: #7fe1d4;
   font-family: "Comic Sans MS", serif;
 }
@@ -46,7 +46,7 @@ body {
 }
 
 .button:hover {
-  background-color: rgb(58.75, 98.75, 98.75);
+  background-color: #3a6262;
 }
 
 .button:active {
@@ -61,4 +61,3 @@ body {
   color: turquoise;
   font-size: x-large;
 }
-
