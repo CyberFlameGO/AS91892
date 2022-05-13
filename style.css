@@ -10,20 +10,17 @@ body {
   padding: 8px;
 }
 
-#title-heading {
+header {
+  background-color: darkslategrey;
   color: #7fe1d4;
   font-family: "Comic Sans MS", serif;
-}
-
-#header-body {
-  background-color: darkslategrey;
   padding: 12px;
   border-radius: 12.5px;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
 }
 
-#button-area {
+nav {
   width: 50%;
   margin: auto;
   display: flex;
@@ -32,9 +29,9 @@ body {
   padding: 10px;
 }
 
-.button {
+.navbar-pseudobutton {
   text-align: center;
-  border-radius: 32px;
+  border-radius: 65536px;
   padding: 2%;
   width: 16%;
   color: darkturquoise;
@@ -44,28 +41,54 @@ body {
   font-size: large;
   cursor: pointer;
 }
+/* I'm aware that some of these are redundant but it doesn't actually
+    matter seeing as CSS and HTML don't have proper, standardised conventions (iirc)
+*/
 
-.button:hover {
+.navbar-pseudobutton a {
+  color: darkturquoise;
+}
+
+.navbar-pseudobutton a:link {
+  color: #02c8ca;
+}
+
+.navbar-pseudobutton a:visited {
+  color: #03ced1;
+}
+
+.navbar-pseudobutton:hover {
   background-color: #3a6262;
 }
 
-.button:active {
+.navbar-pseudobutton:active {
   background-color: #5e9e9e;
+}
+
+.navbar-pseudobutton:focus {
+  border-color: royalblue;
+}
+
+main {
+  background-color: #046e78;
+  padding: 48px;
+  border-radius: 32px;
+}
+
+main h2 {
+  color: turquoise;
+  font-size: x-large;
 }
 
 #contents {
   background-color: #046e78;
   padding: 48px;
   border-radius: 32px;
+  border: 4px solid crimson;
+  border-collapse: collapse;
 }
 
-#contents h2 {
-  color: turquoise;
-  font-size: x-large;
-}
-
-.contents-box {
-  background-color: darkslategrey;
-  padding: 16px;
-  border-radius: 16px;
+#contents th, td {
+  border: 1px solid #000000;
+  padding: 5px;
 }
