@@ -8,6 +8,7 @@ body {
   margin: auto;
   background-color: darkturquoise;
   padding: 8px;
+  display: grid;
 }
 
 header {
@@ -15,9 +16,7 @@ header {
   color: #7fe1d4;
   font-family: "Comic Sans MS", serif;
   padding: 12px;
-  border-radius: 12.5px;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
+  border-radius: 12px 12px 4px 4px;
 }
 
 nav {
@@ -41,8 +40,9 @@ nav {
   font-size: large;
   cursor: pointer;
 }
-/* I'm aware that some of these are redundant but it doesn't actually
-    matter seeing as CSS and HTML don't have proper, standardised conventions (iirc)
+/*
+I'm aware that some of these are redundant but it doesn't actually
+ matter seeing as CSS and HTML don't have proper, standardised conventions (iirc)
 */
 
 .navbar-pseudobutton a {
