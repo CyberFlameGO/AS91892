@@ -1,19 +1,18 @@
 html {
-  background-color: teal;
+  background-color: #002b36;
   font-family: Calibri, serif;
 }
 
 body {
   width: auto;
   margin: auto;
-  background-color: darkturquoise;
   padding: 8px;
   display: grid;
 }
 
 header {
-  background-color: darkslategrey;
-  color: #7fe1d4;
+  background-color: #073642;
+  color: #93a1a1;
   font-family: "Comic Sans MS", serif;
   padding: 12px;
   border-radius: 12px 12px 4px 4px;
@@ -70,13 +69,13 @@ I'm aware that some of these are redundant but it doesn't actually
 }
 
 main {
-  background-color: #046e78;
+  background-color: #586e75;
   padding: 48px;
   border-radius: 32px;
 }
 
 main h2 {
-  color: turquoise;
+  color: #eee8d5;
   font-size: x-large;
 }
 
