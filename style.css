@@ -39,6 +39,7 @@ nav {
   font-size: large;
   cursor: pointer;
 }
+
 /*
 I'm aware that some of these are redundant but it doesn't actually
  matter seeing as CSS and HTML don't have proper, standardised conventions (iirc)
@@ -93,7 +94,7 @@ main h2 {
 }
 
 footer {
-  background-color: #FAE7C8;
+  background-color: #fae7c8;
   border-radius: 12px;
   padding: 16px;
 }
