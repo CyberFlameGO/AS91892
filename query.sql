@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS Main
+(
+    'id'                INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    'attempt_length'    REAL     DEFAULT 0.0 NOT NULL,
+    'attempt_timestamp' DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+);

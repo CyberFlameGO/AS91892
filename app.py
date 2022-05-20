@@ -1,11 +1,15 @@
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    """
+    deez ;ntus
+    :return:
+    """
+    return str(request.args)
 
 
 if __name__ == '__main__':
