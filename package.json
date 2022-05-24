@@ -12,7 +12,7 @@
   },
   "author": "",
   "devDependencies": {
-    "stylelint": "14.8.3",
+    "stylelint": "14.8.4",
     "stylelint-config-standard": "25.0.0"
   }
 }
