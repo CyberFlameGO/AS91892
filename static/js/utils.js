@@ -9,11 +9,11 @@ function changeImage() {
 
 
 //const clickElement = document.getElementById("click-counter")
-const clickCount = document.getElementById("clicks")
+const clickCount = document.getElementById("clicks");
 
 let clicks = 0;
 
 function incrementClickCount() {
-    clicks++
+    clicks++;
     clickCount.innerHTML = clicks;
 }
