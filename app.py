@@ -42,7 +42,8 @@ class Database(object):
             print(e)
 
     def read_db(self):
-        self.cursor.execute("SELECT tag, description FROM tags WHERE type = 'HTML'")
+        query = "SELECT tag, description FROM tags WHERE type = ?"
+        self.cursor.execute(query, ('HTML', ))
         return self.cursor.fetchall()
 
     def insert_row(self, length: float):
