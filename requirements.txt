@@ -1,1 +1,8 @@
-flask
+Flask
+Jinja2
+Werkzeug
+click
+itsdangerous
+MarkupSafe
+watchdog
+python-dotenv
