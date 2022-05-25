@@ -1301,34 +1301,39 @@
       <DataType>BLOB|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="477" parent="163">
+    <column id="477" parent="163" name="description">
+      <Position>4</Position>
+      <DataType>TEXT|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="478" parent="163">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="478" parent="164" name="type">
+    <column id="479" parent="164" name="type">
       <Position>1</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="479" parent="164" name="name">
+    <column id="480" parent="164" name="name">
       <Position>2</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="480" parent="164" name="tbl_name">
+    <column id="481" parent="164" name="tbl_name">
       <Position>3</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="481" parent="164" name="rootpage">
+    <column id="482" parent="164" name="rootpage">
       <Position>4</Position>
       <DataType>int|0s</DataType>
     </column>
-    <column id="482" parent="164" name="sql">
+    <column id="483" parent="164" name="sql">
       <Position>5</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="483" parent="165" name="name">
+    <column id="484" parent="165" name="name">
       <Position>1</Position>
     </column>
-    <column id="484" parent="165" name="seq">
+    <column id="485" parent="165" name="seq">
       <Position>2</Position>
     </column>
   </database-model>

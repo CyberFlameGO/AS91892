@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <title>Site</title>
+    <link rel = "stylesheet" type = "text/css" href = "../static/css/style.css">
+    <script type = "text/javascript" src = "../static/js/utils.js"></script>
+</head>
+<body>
+<header>
+    <h1>Site</h1>
+</header>
+<nav>
+    <a class = "navbar-pseudobutton" href = "/">Home</a>
+    <a class = "navbar-pseudobutton" href = "contact">meme site</a>
+</nav>
+<main>
+    <h3>c o n t e n t</h3>
+    <div id = "contents">
+        <table>
+            <caption>Table</caption>
+            <thead>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {%  for tag in tags %}
+                <td>
+                    <pre><code>{{  tag[0] }}</code></pre>
+                </td>
+                <td>{{ tag[1] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+        </table>
+    </div>
+</main>
+<footer>
+    <p>&copy; Aaron Lowe, 2022</p>
+</footer>
+</body>
+</html>

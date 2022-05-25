@@ -1,6 +1,7 @@
-CREATE TABLE IF NOT EXISTS Main
+CREATE TABLE IF NOT EXISTS Tags
 (
     'id'                INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    'attempt_length'    REAL     DEFAULT 0.0 NOT NULL,
-    'attempt_timestamp' DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+    'type'              VARCHAR(10) NOT NULL,
+    'tag'               BLOB NOT NULL,
+    'description'       TEXT NOT NULL
 );
