@@ -1,46 +1,6 @@
-<!DOCTYPE html>
-<html lang = "en">
-<head>
-    <meta charset = "UTF-8">
-    <title>Site</title>
-    <link rel = "stylesheet" type = "text/css" href = "../static/css/style.css">
-    <script type = "text/javascript" src = "../static/js/utils.js"></script>
-</head>
-<body>
-<header>
-    <h1>Site</h1>
-</header>
-<nav>
-    <a class = "navbar-pseudobutton" href = "/">Home</a>
-    <a class = "navbar-pseudobutton" href = "contact">meme site</a>
-</nav>
-<main>
-    <h3>c o n t e n t</h3>
-    <div id = "contents">
-        <table>
-            <caption>Table</caption>
-            <thead>
-            <tr>
-                <th>Key</th>
-                <th>Value</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>
-                    <pre><code>key</code></pre>
-                </td>
-                <td>value</td>
-            </tr>
-            </tbody>
-            <tfoot>
+{% extends  "base.html"%}
 
-            </tfoot>
-        </table>
-    </div>
-</main>
-<footer>
-    <p>&copy; Aaron Lowe, 2022</p>
-</footer>
-</body>
-</html>
+
+{% block main %}
+<h2>hi</h2>
+{% endblock %}

@@ -41,9 +41,14 @@ class Database(object):
         except sqlite3.Error as e:
             print(e)
 
-    def read_db(self):
-        query = "SELECT tag, description FROM tags WHERE type = ?"
-        self.cursor.execute(query, ('HTML', ))
+    def read_db(self, query, params: tuple):
+        """
+        SELECT query TODO: actually make the docstring
+        :param query:
+        :param params:
+        :return:
+        """
+        self.cursor.execute(query, params)
         return self.cursor.fetchall()
 
     def insert_row(self, length: float):
@@ -55,6 +60,20 @@ class Database(object):
         """
         self.cursor.execute(f"INSERT INTO Tags (attempt_length) VALUES ({length})")
         self.connection.commit()
+
+
+def get_tags(tag_type):
+    """
+    Get the tags for a particular type of web tag
+    :param tag_type:
+    :return:
+    """
+    db = Database()
+    query = "SELECT tag, description FROM tags WHERE type=?"
+    tag_list = db.read_db(query, (tag_type, ))
+    db.connection.close()
+    print(tag_list)
+    return tag_list
 
 
 @app.route('/meme')
@@ -91,9 +110,30 @@ def render_data():
     :return:
     """
     db = Database(DB_FILE)
-    tag_list = db.read_db()
+    query = "SELECT tag, description FROM tags WHERE type = ?"
+    tag_list = db.read_db(query, ('HTML',))
     db.connection.close()
     return render_template("datapage.html", tags = tag_list)
+
+
+@app.route('/tags/<tag_type>')
+def render_webpages(tag_type):
+    tag_type = tag_type.upper()
+    return render_template("datapage.html", tags=get_tags(tag_type), title=tag_type)
+
+
+@app.route('/search', methods = ['GET', 'POST'])
+def render_search():
+    print(request.form)
+    search = request.form['search']
+    title = "Search for " + search
+    query = "SELECT tag, description FROM tags WHERE " \
+            "tag like ? OR description like ?"
+    search = "%" + search + "%"
+    db = Database(DB_FILE)
+    tag_list = db.read_db(query, (search, search))
+    db.connection.close()
+    return render_template("datapage.html", tags = tag_list, title = title)
 
 
 if __name__ == '__main__':
