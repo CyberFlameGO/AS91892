@@ -4,7 +4,7 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-DB_FILE = r"webtags.db"
+DB_FILE = r"gamedata.db"
 
 
 class Database(object):
@@ -27,15 +27,25 @@ class Database(object):
             # there's a built-in rowid which the id column just aliases to (unless using 'WITHOUT ROWID', which i'm not
             # doing right now as it's not worth the effort), but I've set it up this way on purpose.
             # Switching to no rowid is something I may do if I ever come back to working on this after submitting it.
+            # todo: when i update these comments for this project, explain why i'm using real as opposed to
+            #  double/float (the reason is that i don't need double precision decimals)
             self.cursor.execute(
                 '''
-                CREATE TABLE IF NOT EXISTS Tags
-                (
-                    'id'                INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                    'type'              VARCHAR(10) NOT NULL,
-                    'tag'               BLOB NOT NULL,
-                    'description'       TEXT NOT NULL
-                )
+                    CREATE TABLE IF NOT EXISTS Game
+                    (
+                        'id'                INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                        'rank'              INTEGER UNIQUE NOT NULL,
+                        'game'              BLOB,
+                        'platform'          TEXT NOT NULL,
+                        'year'              INTEGER,
+                        'genre'             TEXT,   
+                        'publisher'         BLOB NOT NULL,
+                        'na'                REAL,
+                        'eu'                REAL,
+                        'jp'                REAL,
+                        'other'             REAL,
+                        'global'            REAL
+                    );
                 '''
             )
         except sqlite3.Error as e:
@@ -69,7 +79,7 @@ def get_tags(tag_type):
     :return:
     """
     db = Database()
-    query = "SELECT tag, description FROM tags WHERE type=?"
+    query = "SELECT game, platform FROM Game WHERE genre=?"
     tag_list = db.read_db(query, (tag_type, ))
     db.connection.close()
     print(tag_list)
@@ -103,19 +113,6 @@ def render_contact():
     return render_template("contact.html")
 
 
-@app.route('/data')
-def render_data():
-    """
-    dn
-    :return:
-    """
-    db = Database(DB_FILE)
-    query = "SELECT tag, description FROM tags WHERE type = ?"
-    tag_list = db.read_db(query, ('HTML',))
-    db.connection.close()
-    return render_template("datapage.html", tags = tag_list)
-
-
 @app.route('/tags/<tag_type>')
 def render_webpages(tag_type):
     tag_type = tag_type.upper()
@@ -127,8 +124,8 @@ def render_search():
     print(request.form)
     search = request.form['search']
     title = "Search for " + search
-    query = "SELECT tag, description FROM tags WHERE " \
-            "tag like ? OR description like ?"
+    query = "SELECT Game.game, platform FROM Game WHERE " \
+            "genre like ? OR year like ?"
     search = "%" + search + "%"
     db = Database(DB_FILE)
     tag_list = db.read_db(query, (search, search))
