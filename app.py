@@ -116,7 +116,16 @@ def render_contact():
 @app.route('/tags/<tag_type>')
 def render_webpages(tag_type):
     tag_type = tag_type.upper()
-    return render_template("datapage.html", tags=get_tags(tag_type), title=tag_type)
+    return render_template("datapage.html", values=get_tags(tag_type), title=tag_type)
+
+@app.route('/all')
+def render_me():
+    query = "SELECT ?, ? FROM Game"
+    db = Database(DB_FILE)
+    tag_list = db.read_db(query, ("game", "platform"))
+    db.connection.close()
+    print(tag_list)
+    return render_template("datapage.html", values=tag_list, title="All")
 
 
 @app.route('/search', methods = ['GET', 'POST'])
@@ -130,7 +139,7 @@ def render_search():
     db = Database(DB_FILE)
     tag_list = db.read_db(query, (search, search))
     db.connection.close()
-    return render_template("datapage.html", tags = tag_list, title = title)
+    return render_template("datapage.html", values = tag_list, title = title)
 
 
 if __name__ == '__main__':

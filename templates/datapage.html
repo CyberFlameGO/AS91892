@@ -12,11 +12,11 @@
             </thead>
             <tbody>
             <tr>
-                {%  for tag in tags %}
+                {%  for val in values %}
                 <td>
-                    <pre><code>{{  tag[0] }}</code></pre>
+                    <pre><code>{{  val[0] }}</code></pre>
                 </td>
-                <td>{{ tag[1] }}</td>
+                <td>{{ val[1] }}</td>
             </tr>
             {% endfor %}
             </tbody>
