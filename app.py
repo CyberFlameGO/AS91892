@@ -125,15 +125,13 @@ def render_webpages(tag_type):
 def render_me():
     query = "SELECT Game.game, platform FROM Game"
     db = Database(DB_FILE)
-    mel = db.read_db(query)
+    all = db.read_db(query)
     db.connection.close()
-    print(mel)
-    return render_template("datapage.html", values = mel, title = "All")
+    return render_template("datapage.html", values = all, title = "All")
 
 
 @app.route('/search', methods = ['GET', 'POST'])
 def render_search():
-    print(request.form)
     search = request.form['search']
     title = "Search for " + search
     query = "SELECT Game.game, platform FROM Game WHERE " \
@@ -141,7 +139,6 @@ def render_search():
     search = "%" + search + "%"
     db = Database(DB_FILE)
     tag_list = db.read_db(query, (search, search))
-    print(tag_list)
     db.connection.close()
     return render_template("datapage.html", values = tag_list, title = title)
 
