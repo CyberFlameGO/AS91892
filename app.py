@@ -51,14 +51,17 @@ class Database(object):
         except sqlite3.Error as e:
             print(e)
 
-    def read_db(self, query, params: tuple):
+    def read_db(self, query, params: tuple = (None,)):
         """
         SELECT query TODO: actually make the docstring
         :param query:
         :param params:
         :return:
         """
-        self.cursor.execute(query, params)
+        if params[0] is not None and len(params) != 1:
+            self.cursor.execute(query, params)
+        else:
+            self.cursor.execute(query)
         return self.cursor.fetchall()
 
     def insert_row(self, length: float):
@@ -78,9 +81,9 @@ def get_tags(tag_type):
     :param tag_type:
     :return:
     """
-    db = Database()
+    db = Database(DB_FILE)
     query = "SELECT game, platform FROM Game WHERE genre=?"
-    tag_list = db.read_db(query, (tag_type, ))
+    tag_list = db.read_db(query, (tag_type,))
     db.connection.close()
     print(tag_list)
     return tag_list
@@ -115,17 +118,17 @@ def render_contact():
 
 @app.route('/tags/<tag_type>')
 def render_webpages(tag_type):
-    tag_type = tag_type.upper()
-    return render_template("datapage.html", values=get_tags(tag_type), title=tag_type)
+    return render_template("datapage.html", values = get_tags(tag_type), title = tag_type)
+
 
 @app.route('/all')
 def render_me():
-    query = "SELECT ?, ? FROM Game"
+    query = "SELECT Game.game, platform FROM Game"
     db = Database(DB_FILE)
-    tag_list = db.read_db(query, ("game", "platform"))
+    mel = db.read_db(query)
     db.connection.close()
-    print(tag_list)
-    return render_template("datapage.html", values=tag_list, title="All")
+    print(mel)
+    return render_template("datapage.html", values = mel, title = "All")
 
 
 @app.route('/search', methods = ['GET', 'POST'])
@@ -138,6 +141,7 @@ def render_search():
     search = "%" + search + "%"
     db = Database(DB_FILE)
     tag_list = db.read_db(query, (search, search))
+    print(tag_list)
     db.connection.close()
     return render_template("datapage.html", values = tag_list, title = title)
 
