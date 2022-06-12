@@ -3,20 +3,30 @@
 {% block main %}
     <h2>{{ title }}</h2>
         <table>
-            <caption>Table</caption>
+            <caption>{{ title }}</caption>
             <thead>
             <tr>
-                <th>Key</th>
-                <th>Value</th>
+                {% for key in keys %}
+                <th>{{ key[0] }}</th>
+                {% endfor %}
             </tr>
             </thead>
             <tbody>
+            {% for val in values %}
             <tr>
-                {% for val in values %}
                 <td>
-                    <pre><code>{{ val[0] }}</code></pre>
+                    <pre><code>{{ val[1] }}</code></pre>
                 </td>
-                <td>{{ val[1] }}</td>
+                <td>{{ val[2] }}</td>
+                <td>{{ val[3] }}</td>
+                <td>{{ val[4] }}</td>
+                <td>{{ val[5] }}</td>
+                <td>{{ val[6] }}</td>
+                <td>{{ val[7] }}</td>
+                <td>{{ val[8] }}</td>
+                <td>{{ val[9] }}</td>
+                <td>{{ val[10] }}</td>
+                <td>{{ val[11] }}</td>
             </tr>
             {% endfor %}
             </tbody>

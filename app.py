@@ -9,7 +9,8 @@ DB_FILE = r"gamedata.db"
 
 class Database(object):
     """
-    Database class
+    Database class for SQLite3.
+    TODO: Make a variable for the table (for use in class methods) and variable for table creation query
     """
 
     def __init__(self, db_name: str):
@@ -63,6 +64,13 @@ class Database(object):
         else:
             self.cursor.execute(query)
         return self.cursor.fetchall()
+
+    def get_all_fields_of_table(self):
+        """
+        Gets all columns (fields) excluding the id field, of a table using SQLite's PRAGMA command
+        """
+        self.cursor.execute(f"PRAGMA table_info(Game);")
+        return self.cursor.fetchall().pop(0)
 
     def insert_row(self, length: float):
         """
@@ -122,12 +130,14 @@ def render_webpages(tag_type):
 
 
 @app.route('/all')
-def render_me():
-    query = "SELECT Game.game, platform FROM Game"
+def render_all():
+    query = "SELECT * FROM Game"
     db = Database(DB_FILE)
-    all = db.read_db(query)
+    fields = db.get_all_fields_of_table()
+    data = db.read_db(query)
+
     db.connection.close()
-    return render_template("datapage.html", values = all, title = "All")
+    return render_template("datapage.html", keys = fields, values = data, title = "All")
 
 
 @app.route('/search', methods = ['GET', 'POST'])
