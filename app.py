@@ -1,16 +1,20 @@
+"""
+TODO: Potentially make a table_name variable, and make the database class handle as much as possible
+"""
+
 import sqlite3
 
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-DB_FILE = r"gamedata.db"
+DB_FILE = r"accounts.db"
 
 
 class Database(object):
     """
     Database class for SQLite3.
-    TODO: Make a variable for the table (for use in class methods) and variable for table creation query
+    TODO: Potentially make a variable for table creation query
     """
 
     def __init__(self, db_name: str):
@@ -32,21 +36,15 @@ class Database(object):
             #  double/float (the reason is that i don't need double precision decimals)
             self.cursor.execute(
                 '''
-                    CREATE TABLE IF NOT EXISTS Game
-                    (
-                        'id'                INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                        'rank'              INTEGER UNIQUE NOT NULL,
-                        'game'              BLOB,
-                        'platform'          TEXT NOT NULL,
-                        'year'              INTEGER,
-                        'genre'             TEXT,   
-                        'publisher'         BLOB NOT NULL,
-                        'na'                REAL,
-                        'eu'                REAL,
-                        'jp'                REAL,
-                        'other'             REAL,
-                        'global'            REAL
-                    );
+                CREATE TABLE IF NOT EXISTS MOCK_DATA (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    first_name TEXT NOT NULL,
+                    last_name TEXT NOT NULL,
+                    email TEXT UNIQUE NOT NULL,
+                    gender TEXT NOT NULL,
+                    dob DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    address BLOB
+                );
                 '''
             )
         except sqlite3.Error as e:
@@ -54,7 +52,7 @@ class Database(object):
 
     def read_db(self, query, params: tuple = (None,)):
         """
-        SELECT query TODO: actually make the docstring
+        Runs a query then fetches and returns output of the query.
         :param query:
         :param params:
         :return:
@@ -65,11 +63,13 @@ class Database(object):
             self.cursor.execute(query)
         return self.cursor.fetchall()
 
-    def get_all_fields_of_table(self):
+    def get_all_fields_of_table(self, table):
         """
         Gets all columns (fields) excluding the id field, of a table using SQLite's PRAGMA command
+        :param table:
+        :return:
         """
-        self.cursor.execute(f"PRAGMA table_info(Game);")
+        self.cursor.execute(f"PRAGMA table_info({table});")
         return self.cursor.fetchall().pop(0)
 
     def insert_row(self, length: float):
@@ -113,15 +113,6 @@ def render_index():
     :return:
     """
     return render_template("index.html")
-
-
-@app.route('/contact')
-def render_contact():
-    """
-    Renders contactpage
-    :return:
-    """
-    return render_template("contact.html")
 
 
 @app.route('/tags/<tag_type>')

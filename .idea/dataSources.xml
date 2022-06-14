@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Game Data" uuid="57a29acd-117f-471c-86e2-a4be86f6e783">
+    <data-source source="LOCAL" name="Accounts" uuid="eceb9b66-2790-4112-8d22-622f6602fcee">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\19380\PycharmProjects\AS91892\gamedata.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:accounts.db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="accounts" uuid="376c9b6e-7a25-49fe-af92-4d48784ebbf7">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\19380\PycharmProjects\AS91892\accounts.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>
