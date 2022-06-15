@@ -42,8 +42,8 @@ class Database(object):
                     last_name TEXT NOT NULL,
                     email TEXT UNIQUE NOT NULL,
                     gender TEXT NOT NULL,
-                    dob DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    address BLOB
+                    dob DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                    address BLOB NOT NULL
                 );
                 '''
             )
@@ -63,14 +63,19 @@ class Database(object):
             self.cursor.execute(query)
         return self.cursor.fetchall()
 
-    def get_all_fields_of_table(self, table):
+    def get_all_fields_of_table(self, table) -> list:
         """
         Gets all columns (fields) excluding the id field, of a table using SQLite's PRAGMA command
         :param table:
         :return:
         """
         self.cursor.execute(f"PRAGMA table_info({table});")
-        return self.cursor.fetchall().pop(0)
+        row_info = self.cursor.fetchall()
+        del row_info[0]
+        data = []
+        for val in row_info:
+            data.append(val[1])
+        return data
 
     def insert_row(self, length: float):
         """
@@ -90,7 +95,7 @@ def get_tags(tag_type):
     :return:
     """
     db = Database(DB_FILE)
-    query = "SELECT game, platform FROM Game WHERE genre=?"
+    query = "SELECT first_name, last_name, gender, address FROM MOCK_DATA WHERE dob=?"
     tag_list = db.read_db(query, (tag_type,))
     db.connection.close()
     print(tag_list)
@@ -122,11 +127,12 @@ def render_webpages(tag_type):
 
 @app.route('/all')
 def render_all():
-    query = "SELECT * FROM Game"
+    query = "SELECT * FROM MOCK_DATA"
     db = Database(DB_FILE)
-    fields = db.get_all_fields_of_table()
-    data = db.read_db(query)
-
+    fields = []
+    for element in db.get_all_fields_of_table("MOCK_DATA"):
+        fields.append(element.replace("_", " ").capitalize())
+    data = db.read_db(query)  # TODO: get rid of id before giving to jinja
     db.connection.close()
     return render_template("datapage.html", keys = fields, values = data, title = "All")
 
@@ -135,8 +141,9 @@ def render_all():
 def render_search():
     search = request.form['search']
     title = "Search for " + search
-    query = "SELECT Game.game, platform FROM Game WHERE " \
-            "genre like ? OR year like ?"
+    # Search query
+    query = "SELECT first_name, last_name FROM MOCK_DATA WHERE " \
+            "gender like ? OR dob like ?"
     search = "%" + search + "%"
     db = Database(DB_FILE)
     tag_list = db.read_db(query, (search, search))

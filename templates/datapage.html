@@ -7,13 +7,14 @@
             <thead>
             <tr>
                 {% for key in keys %}
-                <th>{{ key[0] }}</th>
+                <th>{{ key }}</th>
                 {% endfor %}
             </tr>
             </thead>
             <tbody>
             {% for val in values %}
             <tr>
+            <!--
                 <td>
                     <pre><code>{{ val[1] }}</code></pre>
                 </td>
@@ -27,6 +28,10 @@
                 <td>{{ val[9] }}</td>
                 <td>{{ val[10] }}</td>
                 <td>{{ val[11] }}</td>
+                -->
+            {% for i in val %}
+            <td>{{ i }}</td> <!-- TODO: patch this up -->
+            {% endfor %}
             </tr>
             {% endfor %}
             </tbody>

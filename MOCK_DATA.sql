@@ -1,12 +1,3 @@
-create table MOCK_DATA (
-	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	first_name TEXT NOT NULL,
-	last_name TEXT NOT NULL,
-	email TEXT UNIQUE NOT NULL,
-	gender TEXT NOT NULL,
-	dob DATETIME DEFAULT CURRENT_TIMESTAMP,
-	address BLOB
-);
 insert into MOCK_DATA (id, first_name, last_name, email, gender, dob, address) values (1, 'Hal', 'Oliphard', 'holiphard0@delicious.com', 'Male', '2007-02-02 16:15:37', '64280 Nova Court');
 insert into MOCK_DATA (id, first_name, last_name, email, gender, dob, address) values (2, 'Koo', 'Maasz', 'kmaasz1@hhs.gov', 'Female', '2003-11-17 13:37:52', '8956 Elka Hill');
 insert into MOCK_DATA (id, first_name, last_name, email, gender, dob, address) values (3, 'Delainey', 'Brayne', 'dbrayne2@g.co', 'Male', '1945-05-29 08:52:48', '4622 Moulton Street');
