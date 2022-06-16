@@ -9,23 +9,23 @@
 <header>
     <h1>Site</h1>
 </header>
-    <header>
-        <h1>Site</h1>
-    </header>
-    <nav>
-        <a class = "navbar-pseudobutton" href = "/">Home</a>
-        <a class = "navbar-pseudobutton" href = "all">List all data</a>
-        <form method="POST" action="/search">
-            <input type="text" name="search" id="search">
-            <input type="submit">
-        </form>
+<header>
+    <h1>Site</h1>
+</header>
+<nav>
+    <a class = "navbar-pseudobutton" href = "/">Home</a>
+    <a class = "navbar-pseudobutton" href = "all">List all data</a>
+    <form method = "POST" action = "/search">
+        <label for = "search"></label><input type = "text" name = "search" id = "search">
+        <input type = "submit">
+    </form>
 
-    </nav>
-    <main>
-        {% block main %}{% endblock %}
-    </main>
-    <footer>
-        <p>&copy; Aaron Lowe, 2022</p>
-    </footer>
+</nav>
+<main>
+    {% block main %}{% endblock %}
+</main>
+<footer>
+    <p>&copy; Aaron Lowe, 2022</p>
+</footer>
 </body>
 </html>

@@ -2,41 +2,26 @@
 
 {% block main %}
     <h2>{{ title }}</h2>
-        <table>
-            <caption>{{ title }}</caption>
-            <thead>
-            <tr>
-                {% for key in keys %}
+    <table>
+        <caption>{{ title }}</caption>
+        <thead>
+        <tr>
+            {% for key in keys %}
                 <th>{{ key }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for val in values %}
+            <tr>
+                {% for i in val %}
+                    <td>{{ i }}</td>
                 {% endfor %}
             </tr>
-            </thead>
-            <tbody>
-            {% for val in values %}
-            <tr>
-            <!--
-                <td>
-                    <pre><code>{{ val[1] }}</code></pre>
-                </td>
-                <td>{{ val[2] }}</td>
-                <td>{{ val[3] }}</td>
-                <td>{{ val[4] }}</td>
-                <td>{{ val[5] }}</td>
-                <td>{{ val[6] }}</td>
-                <td>{{ val[7] }}</td>
-                <td>{{ val[8] }}</td>
-                <td>{{ val[9] }}</td>
-                <td>{{ val[10] }}</td>
-                <td>{{ val[11] }}</td>
-                -->
-            {% for i in val %}
-            <td>{{ i }}</td> <!-- TODO: patch this up -->
-            {% endfor %}
-            </tr>
-            {% endfor %}
-            </tbody>
-            <tfoot>
+        {% endfor %}
+        </tbody>
+        <tfoot>
 
-            </tfoot>
-        </table>
+        </tfoot>
+    </table>
 {% endblock %}
