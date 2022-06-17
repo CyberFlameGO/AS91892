@@ -127,14 +127,30 @@ def render_webpages(tag_type):
 
 @app.route('/all')
 def render_all():
-    query = "SELECT * FROM MOCK_DATA"
+    query = "SELECT first_name, last_name, email, gender, dob, address FROM MOCK_DATA"
+    db = Database(DB_FILE)
+    fields = []
+    for element in db.get_all_fields_of_table("MOCK_DATA"):
+        if element == "dob":
+            fields.append("DOB")
+        else:
+            fields.append(element.replace("_", " ").capitalize())
+    data = db.read_db(query)  # TODO: get rid of id before giving to jinja
+    db.connection.close()
+    return render_template("datapage.html", keys = fields, values = data, title = "All")
+
+
+@app.route('/all2')
+def render_all2():
+    query = "SELECT first_name, last_name, email, gender, dob, address FROM MOCK_DATA"
     db = Database(DB_FILE)
     fields = []
     for element in db.get_all_fields_of_table("MOCK_DATA"):
         fields.append(element.replace("_", " ").capitalize())
     data = db.read_db(query)  # TODO: get rid of id before giving to jinja
     db.connection.close()
-    return render_template("datapage.html", keys = fields, values = data, title = "All")
+    return render_template("card.html", keys = fields, values = data, title = "All")
+
 
 
 @app.route('/search', methods = ['GET', 'POST'])

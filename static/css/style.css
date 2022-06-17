@@ -103,3 +103,20 @@ footer p {
   color: #d33682;
   padding: 4px;
 }
+
+#cards {
+  padding: 20px;
+}
+
+article {
+    text-align: center;
+  border-radius: 65536px;
+  padding: 2%;
+  width: 16%;
+  color: darkturquoise;
+  border: #2f4f4f;
+  background-color: darkslategrey;
+  font-family: Calibri, serif;
+  font-size: large;
+  cursor: pointer;
+}
