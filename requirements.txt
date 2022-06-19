@@ -6,3 +6,5 @@ itsdangerous
 MarkupSafe
 watchdog
 python-dotenv
+
+coverage

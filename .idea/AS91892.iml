@@ -14,6 +14,12 @@
     <option name="versionSpecifier" value="Don't specify version" />
     <option name="modifyBaseFiles" value="true" />
   </component>
+  <component name="PyDocumentationSettings">
+    <option name="renderExternalDocumentation" value="true" />
+  </component>
+  <component name="ReSTService">
+    <option name="DOC_DIR" value="C:\Users\19380\PycharmProjects\AS91892\docs" />
+  </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
     <option name="TEMPLATE_FOLDERS">

@@ -8,7 +8,7 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-DB_FILE = r"accounts.db"
+DB_FILE = r"cards.db"
 
 
 class Database(object):
@@ -17,7 +17,7 @@ class Database(object):
     TODO: Potentially make a variable for table creation query
     """
 
-    def __init__(self, db_name: str):
+    def __init__(self, db_name: str, queryfile: str) -> None:
         """
         Database initialization logic
         :param db_name:
@@ -34,19 +34,7 @@ class Database(object):
             # Switching to no rowid is something I may do if I ever come back to working on this after submitting it.
             # todo: when i update these comments for this project, explain why i'm using real as opposed to
             #  double/float (the reason is that i don't need double precision decimals)
-            self.cursor.execute(
-                '''
-                CREATE TABLE IF NOT EXISTS MOCK_DATA (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                    first_name TEXT NOT NULL,
-                    last_name TEXT NOT NULL,
-                    email TEXT UNIQUE NOT NULL,
-                    gender TEXT NOT NULL,
-                    dob DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-                    address BLOB NOT NULL
-                );
-                '''
-            )
+            self.cursor.executescript(queryfile)
         except sqlite3.Error as e:
             print(e)
 
@@ -76,16 +64,6 @@ class Database(object):
         for val in row_info:
             data.append(val[1])
         return data
-
-    def insert_row(self, length: float):
-        """
-        TODO: ADAPT FOR PROJECT IN FUTURE
-        https://docs.python.org/3/library/sqlite3.html
-        Inserts a new row for an attempt
-        :param length:
-        """
-        self.cursor.execute(f"INSERT INTO Tags (attempt_length) VALUES ({length})")
-        self.connection.commit()
 
 
 def get_tags(tag_type):
