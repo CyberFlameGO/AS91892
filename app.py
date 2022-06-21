@@ -17,7 +17,7 @@ class Database(object):
     TODO: Potentially make a variable for table creation query
     """
 
-    def __init__(self, db_name: str, queryfile: str) -> None:
+    def __init__(self, db_name: str, query_file: str = r"query.sql") -> None:
         """
         Database initialization logic
         :param db_name:
@@ -34,7 +34,7 @@ class Database(object):
             # Switching to no rowid is something I may do if I ever come back to working on this after submitting it.
             # todo: when i update these comments for this project, explain why i'm using real as opposed to
             #  double/float (the reason is that i don't need double precision decimals)
-            self.cursor.executescript(queryfile)
+            self.cursor.executescript(open(query_file, 'r', encoding = "utf8").read())
         except sqlite3.Error as e:
             print(e)
 
@@ -53,7 +53,8 @@ class Database(object):
 
     def get_all_fields_of_table(self, table) -> list:
         """
-        Gets all columns (fields) excluding the id field, of a table using SQLite's PRAGMA command
+        Gets all columns (fields) excluding the id field, of a table using SQLite's PRAGMA command.
+        Having this as a Python is more convenient than having it as a sqlite3 function
         :param table:
         :return:
         """
@@ -106,7 +107,7 @@ def render_webpages(tag_type):
 @app.route('/all')
 def render_all():
     query = "SELECT first_name, last_name, email, gender, dob, address FROM MOCK_DATA"
-    db = Database(DB_FILE)
+    db = Database(DB_FILE, "query.sql")
     fields = []
     for element in db.get_all_fields_of_table("MOCK_DATA"):
         if element == "dob":
@@ -128,7 +129,6 @@ def render_all2():
     data = db.read_db(query)  # TODO: get rid of id before giving to jinja
     db.connection.close()
     return render_template("card.html", keys = fields, values = data, title = "All")
-
 
 
 @app.route('/search', methods = ['GET', 'POST'])
