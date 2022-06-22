@@ -46,6 +46,6 @@ jobs:
       
       # Upload the SARIF file generated in the previous step
       - name: Upload SARIF results file
-        uses: github/codeql-action/upload-sarif@31367d4e57f470bd0d1fc322b7ba473599a670e0
+        uses: github/codeql-action/upload-sarif@2e0c6caf16ddf7e90e391c48bda42895211a463a
         with:
           sarif_file: results.sarif
