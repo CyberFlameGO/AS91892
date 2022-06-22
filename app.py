@@ -106,12 +106,15 @@ def render_webpages(tag_type):
 
 @app.route('/all')
 def render_all():
-    query = "SELECT first_name, last_name, email, gender, dob, address FROM MOCK_DATA"
-    db = Database(DB_FILE, "query.sql")
+    query = "SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, " \
+            "card_def, card_text FROM cards"
+    db = Database(DB_FILE)
     fields = []
-    for element in db.get_all_fields_of_table("MOCK_DATA"):
-        if element == "dob":
-            fields.append("DOB")
+    for element in db.get_all_fields_of_table("cards"):
+        if element == "card_atk":
+            fields.append("Card ATK")
+        elif element == "card_def":
+            fields.append("Card DEF")
         else:
             fields.append(element.replace("_", " ").capitalize())
     data = db.read_db(query)  # TODO: get rid of id before giving to jinja
