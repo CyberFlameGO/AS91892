@@ -1304,12 +1304,10 @@
     <column id="477" parent="163" name="type">
       <Position>4</Position>
       <DataType>TEXT|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="478" parent="163" name="rarity">
       <Position>5</Position>
       <DataType>TEXT|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="479" parent="163" name="value">
       <Position>6</Position>
@@ -1319,12 +1317,10 @@
     <column id="480" parent="163" name="attribute">
       <Position>7</Position>
       <DataType>TEXT|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="481" parent="163" name="subtype">
       <Position>8</Position>
       <DataType>TEXT|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <column id="482" parent="163" name="level">
       <Position>9</Position>
@@ -1344,7 +1340,6 @@
     <column id="485" parent="163" name="card_text">
       <Position>12</Position>
       <DataType>BLOB|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
     <index id="486" parent="163" name="sqlite_autoindex_cards_1">
       <NameSurrogate>1</NameSurrogate>
