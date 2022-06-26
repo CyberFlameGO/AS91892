@@ -112,11 +112,10 @@ article {
   text-align: center;
   border-radius: 65536px;
   padding: 2%;
-  width: 16%;
+  /*width: 16%;*/
   color: darkturquoise;
   border: #2f4f4f;
   background-color: darkslategrey;
-  font-family: Calibri, serif;
+  font-family: Garamond, serif;
   font-size: large;
-  cursor: pointer;
 }

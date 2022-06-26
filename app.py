@@ -1,5 +1,9 @@
 """
 TODO: Potentially make a table_name variable, and make the database class handle as much as possible
+
+Caveats:
+No rate-limiting has been added to the project, to mitigate server overload, and query returns aren't cached despite
+the data not changing.
 """
 
 import sqlite3
@@ -45,7 +49,7 @@ class Database(object):
         :param params:
         :return:
         """
-        if params[0] is not None and len(params) != 1:
+        if params[0] is not None or len(params) >= 1:
             self.cursor.execute(query, params)
         else:
             self.cursor.execute(query)
@@ -81,6 +85,25 @@ def get_tags(tag_type):
     return tag_list
 
 
+def get_all_data():
+    """
+    This function is project-specific.
+    """
+    query = "SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, " \
+            "card_def, card_text FROM cards"
+    db = Database(DB_FILE)
+    fields = []
+    for element in db.get_all_fields_of_table("cards"):
+        if element == "card_atk":
+            fields.append("Card ATK")
+        elif element == "card_def":
+            fields.append("Card DEF")
+        else:
+            fields.append(element.replace("_", " ").capitalize())
+    data = db.read_db(query)
+    db.connection.close()
+    return fields, data
+
 @app.route('/meme')
 def hello_world():
     """
@@ -106,32 +129,16 @@ def render_webpages(tag_type):
 
 @app.route('/all')
 def render_all():
-    query = "SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, " \
-            "card_def, card_text FROM cards"
-    db = Database(DB_FILE)
-    fields = []
-    for element in db.get_all_fields_of_table("cards"):
-        if element == "card_atk":
-            fields.append("Card ATK")
-        elif element == "card_def":
-            fields.append("Card DEF")
-        else:
-            fields.append(element.replace("_", " ").capitalize())
-    data = db.read_db(query)  # TODO: get rid of id before giving to jinja
-    db.connection.close()
-    return render_template("datapage.html", keys = fields, values = data, title = "All")
+    #todo: change variable names
+    val1, val2 = get_all_data()
+    return render_template("datapage.html", keys = val1, values = val2, title = "All")
 
 
 @app.route('/all2')
 def render_all2():
-    query = "SELECT first_name, last_name, email, gender, dob, address FROM MOCK_DATA"
-    db = Database(DB_FILE)
-    fields = []
-    for element in db.get_all_fields_of_table("MOCK_DATA"):
-        fields.append(element.replace("_", " ").capitalize())
-    data = db.read_db(query)  # TODO: get rid of id before giving to jinja
-    db.connection.close()
-    return render_template("card.html", keys = fields, values = data, title = "All")
+    #todo: change variable names
+    val1, val2 = get_all_data()
+    return render_template("card.html", keys = val1, values = val2, title = "All")
 
 
 @app.route('/search', methods = ['GET', 'POST'])

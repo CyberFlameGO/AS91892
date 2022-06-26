@@ -7,7 +7,7 @@
         {% for val in values %}
             <article>
                 {% for i in val %}
-                    <p>{{ keys[loop.index - 1] }}: {{ i }}</p>
+                    <p>{{ keys[loop.index - 2] }}: {{ i }}</p>
                 {% endfor %}
             </article>
         {% endfor %}
