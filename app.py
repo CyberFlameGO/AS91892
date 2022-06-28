@@ -49,10 +49,10 @@ class Database(object):
         :param params:
         :return:
         """
-        if params[0] is not None or len(params) >= 1:
-            self.cursor.execute(query, params)
-        else:
+        if params[0] is None and len(params) == 1:
             self.cursor.execute(query)
+        else:
+            self.cursor.execute(query, params)
         return self.cursor.fetchall()
 
     def get_all_fields_of_table(self, table) -> list:
@@ -85,12 +85,12 @@ def get_tags(tag_type):
     return tag_list
 
 
-def get_all_data():
+def get_formatted_fields():
     """
-    This function is project-specific.
+    TODO: finish docstr
+    TODO URGENT: val1 is fields, val2 is data, fix up code from new function (split) and fix search
+    :return:
     """
-    query = "SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, " \
-            "card_def, card_text FROM cards"
     db = Database(DB_FILE)
     fields = []
     for element in db.get_all_fields_of_table("cards"):
@@ -100,9 +100,22 @@ def get_all_data():
             fields.append("Card DEF")
         else:
             fields.append(element.replace("_", " ").capitalize())
+    db.connection.close()
+
+
+def get_all_data():
+    """
+    This function is project-specific.
+    TODO: finish docstr
+    :return
+    """
+    query = "SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, " \
+            "card_def, card_text FROM cards"
+    db = Database(DB_FILE)
     data = db.read_db(query)
     db.connection.close()
-    return fields, data
+    return data
+
 
 @app.route('/meme')
 def hello_world():
@@ -129,14 +142,14 @@ def render_webpages(tag_type):
 
 @app.route('/all')
 def render_all():
-    #todo: change variable names
+    # todo: change variable names
     val1, val2 = get_all_data()
     return render_template("datapage.html", keys = val1, values = val2, title = "All")
 
 
 @app.route('/all2')
 def render_all2():
-    #todo: change variable names
+    # todo: change variable names
     val1, val2 = get_all_data()
     return render_template("card.html", keys = val1, values = val2, title = "All")
 

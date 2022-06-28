@@ -16,9 +16,19 @@
             <tr>
             <!-- TODO: I'm not assessed on backend code quality, just on the database/frontend, so I should remove
                     this and use numbers instead, and add a scroll box to the description part (for the cards thing too)-->
-                {% for i in val %}
-                    <td>{{ i }}</td>
-                {% endfor %}
+                <td>
+                    <pre><code>{{ val[0] }}</code></pre>
+                </td>
+                <td>{{ val[1] }}</td>
+                <td>{{ val[2] }}</td>
+                <td>{{ val[3] }}</td>
+                <td>{{ val[4] }}</td>
+                <td>{{ val[5] }}</td>
+                <td>{{ val[6] }}</td>
+                <td>{{ val[7] }}</td>
+                <td>{{ val[8] }}</td>
+                <td>{{ val[9] }}</td>
+                <td><p>{{ val[10] }}</p></td>
             </tr>
         {% endfor %}
         </tbody>
