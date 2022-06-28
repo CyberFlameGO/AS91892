@@ -71,18 +71,17 @@ class Database(object):
         return data
 
 
-def get_tags(tag_type):
+def get_entry(entry):
     """
-    Get the tags for a particular type of web tag
-    :param tag_type:
+    Get certain parts of data for a database row (entry)
+    :param entry:
     :return:
     """
     db = Database(DB_FILE)
-    query = "SELECT card_name, rarity, type, number FROM cards WHERE dob=?"
-    tag_list = db.read_db(query, (tag_type,))
+    query = "SELECT card_name, rarity, type, card_text FROM cards WHERE card_name=?"
+    entry_list = db.read_db(query, (entry,))
     db.connection.close()
-    print(tag_list)
-    return tag_list
+    return entry_list
 
 
 def get_formatted_fields() -> list:
@@ -137,7 +136,7 @@ def render_index():
 
 @app.route('/tags/<tag_type>')
 def render_webpages(tag_type):
-    return render_template("datapage.html", values = get_tags(tag_type), title = tag_type)
+    return render_template("datapage.html", values = get_entry(tag_type), title = tag_type)
 
 
 @app.route('/all')
@@ -157,8 +156,7 @@ def render_search():
     search = request.form['search']
     title = "Search for " + search
     # Search query TODO: fix query
-    query = "SELECT first_name, last_name FROM MOCK_DATA WHERE " \
-            "gender like ? OR dob like ?"
+    query = "SELECT card_name, rarity, type, card_text FROM cards WHERE card_name like ? OR card_number like ?"
     search = "%" + search + "%"
     db = Database(DB_FILE)
     tag_list = db.read_db(query, (search, search))
