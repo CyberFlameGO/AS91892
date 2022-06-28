@@ -78,7 +78,7 @@ def get_tags(tag_type):
     :return:
     """
     db = Database(DB_FILE)
-    query = "SELECT first_name, last_name, gender, address FROM MOCK_DATA WHERE dob=?"
+    query = "SELECT card_name, rarity, type, number FROM cards WHERE dob=?"
     tag_list = db.read_db(query, (tag_type,))
     db.connection.close()
     print(tag_list)

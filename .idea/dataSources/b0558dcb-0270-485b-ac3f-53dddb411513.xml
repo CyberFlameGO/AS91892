@@ -1284,5 +1284,28 @@
     <argument id="472" parent="162">
       <Position>1</Position>
     </argument>
+    <table id="473" parent="163" name="sqlite_master">
+      <System>1</System>
+    </table>
+    <column id="474" parent="473" name="type">
+      <DataType>text|0s</DataType>
+      <Position>1</Position>
+    </column>
+    <column id="475" parent="473" name="name">
+      <DataType>text|0s</DataType>
+      <Position>2</Position>
+    </column>
+    <column id="476" parent="473" name="tbl_name">
+      <DataType>text|0s</DataType>
+      <Position>3</Position>
+    </column>
+    <column id="477" parent="473" name="rootpage">
+      <DataType>int|0s</DataType>
+      <Position>4</Position>
+    </column>
+    <column id="478" parent="473" name="sql">
+      <DataType>text|0s</DataType>
+      <Position>5</Position>
+    </column>
   </database-model>
 </dataSource>
