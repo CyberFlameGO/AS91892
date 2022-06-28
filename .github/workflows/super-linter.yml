@@ -15,11 +15,12 @@ on:
   
 permissions:
   contents: read
-  statuses: write
 
 jobs:
   run-lint:
     runs-on: ubuntu-latest
+    permissions:
+        statuses: write
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@cdea734fa57747b9831aa9d6fcb274c5f9669557
