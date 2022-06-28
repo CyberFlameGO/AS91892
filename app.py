@@ -85,10 +85,9 @@ def get_tags(tag_type):
     return tag_list
 
 
-def get_formatted_fields():
+def get_formatted_fields() -> list:
     """
     TODO: finish docstr
-    TODO URGENT: val1 is fields, val2 is data, fix up code from new function (split) and fix search
     :return:
     """
     db = Database(DB_FILE)
@@ -101,6 +100,7 @@ def get_formatted_fields():
         else:
             fields.append(element.replace("_", " ").capitalize())
     db.connection.close()
+    return fields
 
 
 def get_all_data():
@@ -143,29 +143,27 @@ def render_webpages(tag_type):
 @app.route('/all')
 def render_all():
     # todo: change variable names
-    val1, val2 = get_all_data()
-    return render_template("datapage.html", keys = val1, values = val2, title = "All")
+    return render_template("datapage.html", keys = get_formatted_fields(), values = get_all_data(), title = "All")
 
 
 @app.route('/all2')
 def render_all2():
     # todo: change variable names
-    val1, val2 = get_all_data()
-    return render_template("card.html", keys = val1, values = val2, title = "All")
+    return render_template("card.html", keys = get_formatted_fields(), values = get_all_data(), title = "All")
 
 
 @app.route('/search', methods = ['GET', 'POST'])
 def render_search():
     search = request.form['search']
     title = "Search for " + search
-    # Search query
+    # Search query TODO: fix query
     query = "SELECT first_name, last_name FROM MOCK_DATA WHERE " \
             "gender like ? OR dob like ?"
     search = "%" + search + "%"
     db = Database(DB_FILE)
     tag_list = db.read_db(query, (search, search))
     db.connection.close()
-    return render_template("datapage.html", values = tag_list, title = title)
+    return render_template("datapage.html", keys = get_formatted_fields(), values = tag_list, title = title)
 
 
 if __name__ == '__main__':
