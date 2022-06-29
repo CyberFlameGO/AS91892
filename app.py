@@ -1,12 +1,14 @@
 """
-TODO: Potentially make a table_name variable, and make the database class handle as much as possible
-
 Caveats:
 No rate-limiting has been added to the project, to mitigate server overload, and query returns aren't cached despite
 the data not changing.
+I also don't have the display of all data separated by pages, to limit the amount of work the browser has to do in
+one go.
 """
 
 import sqlite3
+from types import NoneType
+from typing import Any, Tuple
 
 from flask import Flask, render_template, request
 
@@ -54,9 +56,9 @@ class Database(object):
             self.cursor.execute(query)
         else:
             self.cursor.execute(query, params)
-        return self.cursor.fetchall()
+        return tuple(self.cursor.fetchall())
 
-    def get_all_fields_of_table(self, table) -> list:
+    def get_all_fields_of_table(self, table) -> tuple:
         """
         Gets all columns (fields) excluding the id field, of a table using SQLite's PRAGMA command.
         Having this as a Python is more convenient than having it as a sqlite3 function
@@ -69,7 +71,7 @@ class Database(object):
         data = []
         for val in row_info:
             data.append(val[1])
-        return data
+        return tuple(data)
 
 
 def get_entry(entry):
@@ -88,7 +90,11 @@ def get_entry(entry):
 
 def get_raw_fields() -> list:
     """
-    TODO: finish docstr
+    Returns all fields of the database, excluding the id field.
+    This is a redundant function seeing as a method already exists in the class Database, but
+    it's used so I don't have to open a connection and close it before using it as a parameter in the return_template function
+    of flask (meaning there are more lines than necessary).
+    In hindsight I should've just had it as a function, but oh well.
     :return:
     """
     db = Database(DB_FILE)
@@ -99,7 +105,7 @@ def get_raw_fields() -> list:
 
 def get_formatted_fields() -> list:
     """
-    TODO: finish docstr
+    Format fields for display.
     :return:
     """
     fields = []
@@ -113,18 +119,19 @@ def get_formatted_fields() -> list:
     return fields
 
 
-def get_all_data():
+def get_all_data(sortby = "card_number") -> tuple[Any, ...]:
     """
     This function is project-specific.
-    TODO: finish docstr
+    TODO: finish docstr and figure out why it's not working (oh and move the query request code here since it
+    interacts with flask anyway)
     :return
     """
     query = "SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, " \
-            "card_def, card_text FROM cards"
+            "card_def, card_text FROM cards ORDER BY ? ASC"
     db = Database(DB_FILE)
-    data = db.read_db(query)
+    data = db.read_db(query, (sortby,))
     db.connection.close()
-    return data
+    return tuple(data)
 
 
 
@@ -147,14 +154,13 @@ def render_webpages(sortable):
 @app.route('/table')
 def render_all():
     sort = request.args.get('sort-by')
-    if sort in SORTABLE_VALUES:
-        print(sort)
-    elif isinstance(sort, None):
-        sort = "card_number"
-    # todo: make sorting "SELECT * FROM data ORDER BY" + sort
-    print(type(sort))
+    if sort not in SORTABLE_VALUES and not isinstance(sort, NoneType):
+        print("Invalid value:", sort)
+        sort = None
+    if isinstance(sort, NoneType):
+        sort = "card_number"  # this is redundant, but I feel as though it's good practice regardless.
     return render_template("datapage.html", raw_keys = get_raw_fields(), keys = get_formatted_fields(),
-                           values = get_all_data(),
+                           values = get_all_data(sortby = sort),
                            sortables = SORTABLE_VALUES, title = "All")
 
 
@@ -165,6 +171,11 @@ def render_cards():
 
 @app.route('/search', methods = ['GET', 'POST'])
 def render_search():
+    """
+    Renders searched items and handles searching functionality.
+    :return:
+    :rtype:
+    """
     search = request.form['search']
     title = "Search for " + search
     # Search query
