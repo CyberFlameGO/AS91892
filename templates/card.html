@@ -6,19 +6,16 @@
     <div id = "cards">
         {% for val in values %}
             <article>
-                <td>
-                    <pre><code>{{ val[0] }}</code></pre>
-                </td>
-                <td>{{ val[1] }}</td>
-                <td>{{ val[2] }}</td>
-                <td>{{ val[3] }}</td>
-                <td>{{ val[4] }}</td>
-                <td>{{ val[5] }}</td>
-                <td>{{ val[6] }}</td>
-                <td>{{ val[7] }}</td>
-                <td>{{ val[8] }}</td>
-                <td>{{ val[9] }}</td>
-                <td><p>{{ val[10] }}</p></td>
+                {% for i in val %}
+                    {% if loop.index == 1 %}
+                        <p>
+                            {{ keys[loop.index - 1] }}:
+                        <pre><code>{{ i }}</code></pre>
+                        </p>
+                    {% else %}
+                        <p>{{ keys[loop.index - 1] }}: {{ i }}</p>
+                    {% endif %}
+                {% endfor %}
             </article>
         {% endfor %}
     </div>
