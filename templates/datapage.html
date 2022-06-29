@@ -7,7 +7,11 @@
         <thead>
         <tr>
             {% for key in keys %}
-                <th>{{ key }}</th>
+                {% if raw_keys[loop.index - 1] in sortables %}
+                    <th><a href = "?sort-by={{ raw_keys[loop.index - 1] }}">{{ key }}</a></th>
+                {% else %}
+                    <th>{{ key }}</th>
+                {% endif %}
             {% endfor %}
         </tr>
         </thead>
@@ -18,7 +22,9 @@
                         this and use numbers instead, and add a scroll box to the description part (for the cards thing too)-->
                 {% for i in val %}
                     {% if i == val[0] %}
-                        <td><pre><code>{{ i }}</code></pre></td>
+                        <td>
+                            <pre><code>{{ i }}</code></pre>
+                        </td>
                     {% elif i == val[-1] %}
                         <td><p>{{ i }}</p></td>
                     {% else %}

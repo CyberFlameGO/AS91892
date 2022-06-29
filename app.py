@@ -13,6 +13,7 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 DB_FILE = r"cards.db"
+SORTABLE_VALUES: list = ["type", "rarity", "attribute", "subtype"]
 
 
 class Database(object):
@@ -73,15 +74,27 @@ class Database(object):
 
 def get_entry(entry):
     """
-    Get certain parts of data for a database row (entry)
+    Get all rows that match a field.
     :param entry:
     :return:
     """
     db = Database(DB_FILE)
-    query = "SELECT card_name, rarity, type, card_text FROM cards WHERE card_name=?"
-    entry_list = db.read_db(query, (entry,))
+    query = "SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, " \
+            "card_def, card_text FROM cards WHERE type = ? OR rarity = ? OR attribute = ? OR subtype = ?"
+    entry_list = db.read_db(query, (entry, entry, entry, entry))
     db.connection.close()
     return entry_list
+
+
+def get_raw_fields() -> list:
+    """
+    TODO: finish docstr
+    :return:
+    """
+    db = Database(DB_FILE)
+    fields = db.get_all_fields_of_table("cards")
+    db.connection.close()
+    return fields
 
 
 def get_formatted_fields() -> list:
@@ -89,16 +102,14 @@ def get_formatted_fields() -> list:
     TODO: finish docstr
     :return:
     """
-    db = Database(DB_FILE)
     fields = []
-    for element in db.get_all_fields_of_table("cards"):
+    for element in get_raw_fields():
         if element == "card_atk":
             fields.append("Card ATK")
         elif element == "card_def":
             fields.append("Card DEF")
         else:
             fields.append(element.replace("_", " ").capitalize())
-    db.connection.close()
     return fields
 
 
@@ -116,14 +127,6 @@ def get_all_data():
     return data
 
 
-@app.route('/meme')
-def hello_world():
-    """
-    Prints query to thing
-    :return:
-    """
-    return ' '.join([*request.args.to_dict()])
-
 
 @app.route('/')
 def render_index():
@@ -134,20 +137,29 @@ def render_index():
     return render_template("index.html")
 
 
-@app.route('/tags/<tag_type>')
-def render_webpages(tag_type):
-    return render_template("datapage.html", values = get_entry(tag_type), title = tag_type)
+@app.route('/table/<sortable>')
+def render_webpages(sortable):
+    return render_template("datapage.html", raw_keys = get_raw_fields(), keys = get_formatted_fields(),
+                           values = get_entry(sortable),
+                           sortables = SORTABLE_VALUES, title = sortable)
 
 
-@app.route('/all')
+@app.route('/table')
 def render_all():
-    # todo: change variable names
-    return render_template("datapage.html", keys = get_formatted_fields(), values = get_all_data(), title = "All")
+    sort = request.args.get('sort-by')
+    if sort in SORTABLE_VALUES:
+        print(sort)
+    elif isinstance(sort, None):
+        sort = "card_number"
+    # todo: make sorting "SELECT * FROM data ORDER BY" + sort
+    print(type(sort))
+    return render_template("datapage.html", raw_keys = get_raw_fields(), keys = get_formatted_fields(),
+                           values = get_all_data(),
+                           sortables = SORTABLE_VALUES, title = "All")
 
 
-@app.route('/all2')
-def render_all2():
-    # todo: change variable names
+@app.route('/card')
+def render_cards():
     return render_template("card.html", keys = get_formatted_fields(), values = get_all_data(), title = "All")
 
 
@@ -155,13 +167,16 @@ def render_all2():
 def render_search():
     search = request.form['search']
     title = "Search for " + search
-    # Search query TODO: fix query
-    query = "SELECT card_name, rarity, type, card_text FROM cards WHERE card_name like ? OR card_number like ?"
+    # Search query
+    query = "SELECT card_name, rarity, type, card_text FROM cards WHERE card_name like ? OR card_number like ? OR " \
+            "type like ? OR rarity like ?"
     search = "%" + search + "%"
     db = Database(DB_FILE)
-    tag_list = db.read_db(query, (search, search))
+    tag_list = db.read_db(query, (search, search, search, search))
     db.connection.close()
-    return render_template("datapage.html", keys = get_formatted_fields(), values = tag_list, title = title)
+    return render_template("datapage.html", raw_keys = get_raw_fields(), keys = get_formatted_fields(),
+                           values = tag_list,
+                           sortables = SORTABLE_VALUES, title = title)
 
 
 if __name__ == '__main__':
