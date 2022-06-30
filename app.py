@@ -7,15 +7,15 @@ one go.
 """
 
 import sqlite3
-from types import NoneType
-from typing import Any, Tuple
-
 from flask import Flask, render_template, request
+from types import NoneType
+from typing import Any
 
 app = Flask(__name__)
 
-DB_FILE = r"cards.db"
-SORTABLE_VALUES: list = ["type", "rarity", "attribute", "subtype"]
+DB_FILE: str = r"cards.db"
+SORTABLE_VALUES: set = {"card_number", "card_name", "type", "rarity", "value", "attribute", "subtype", "level",
+                        "card_atk", "card_def"}
 
 
 class Database(object):
@@ -45,7 +45,7 @@ class Database(object):
         except sqlite3.Error as e:
             print(e)
 
-    def read_db(self, query, params: tuple = (None,)):
+    def read_db(self, query, params: tuple = (None,)) -> tuple:
         """
         Runs a query then fetches and returns output of the query.
         :param query:
@@ -82,18 +82,18 @@ def get_entry(entry):
     """
     db = Database(DB_FILE)
     query = "SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, " \
-            "card_def, card_text FROM cards WHERE type = ? OR rarity = ? OR attribute = ? OR subtype = ?"
-    entry_list = db.read_db(query, (entry, entry, entry, entry))
+            "card_def, card_text FROM cards WHERE attribute = ?"
+    entry_list = db.read_db(query, (entry.title(),))
     db.connection.close()
     return entry_list
 
 
-def get_raw_fields() -> list:
+def get_raw_fields() -> tuple:
     """
     Returns all fields of the database, excluding the id field.
     This is a redundant function seeing as a method already exists in the class Database, but
-    it's used so I don't have to open a connection and close it before using it as a parameter in the return_template function
-    of flask (meaning there are more lines than necessary).
+    it's used so I don't have to open a connection and close it before using it as a parameter in the return_template
+    function of flask (meaning there are more lines than necessary).
     In hindsight I should've just had it as a function, but oh well.
     :return:
     """
@@ -119,20 +119,23 @@ def get_formatted_fields() -> list:
     return fields
 
 
-def get_all_data(sortby = "card_number") -> tuple[Any, ...]:
+def get_all_data() -> tuple[Any, ...]:
     """
     This function is project-specific.
-    TODO: finish docstr and figure out why it's not working (oh and move the query request code here since it
-    interacts with flask anyway)
     :return
     """
-    query = "SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, " \
-            "card_def, card_text FROM cards ORDER BY ? ASC"
+    sort = request.args.get('sort-by')
+    if sort not in SORTABLE_VALUES and not None:
+        print("Invalid value:", sort)
+        sort = None
+    if isinstance(sort, NoneType):
+        sort = "card_number"
+    query = f"SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, card_def, " \
+            f"card_text FROM cards ORDER BY {sort} ASC"
     db = Database(DB_FILE)
-    data = db.read_db(query, (sortby,))
+    data = db.read_db(query)
     db.connection.close()
     return tuple(data)
-
 
 
 @app.route('/')
@@ -147,21 +150,13 @@ def render_index():
 @app.route('/table/<sortable>')
 def render_webpages(sortable):
     return render_template("datapage.html", raw_keys = get_raw_fields(), keys = get_formatted_fields(),
-                           values = get_entry(sortable),
-                           sortables = SORTABLE_VALUES, title = sortable)
+                           values = get_entry(sortable), sortables = SORTABLE_VALUES, title = sortable)
 
 
 @app.route('/table')
 def render_all():
-    sort = request.args.get('sort-by')
-    if sort not in SORTABLE_VALUES and not isinstance(sort, NoneType):
-        print("Invalid value:", sort)
-        sort = None
-    if isinstance(sort, NoneType):
-        sort = "card_number"  # this is redundant, but I feel as though it's good practice regardless.
     return render_template("datapage.html", raw_keys = get_raw_fields(), keys = get_formatted_fields(),
-                           values = get_all_data(sortby = sort),
-                           sortables = SORTABLE_VALUES, title = "All")
+                           values = get_all_data(), sortables = SORTABLE_VALUES, title = "All")
 
 
 @app.route('/card')
@@ -186,8 +181,7 @@ def render_search():
     tag_list = db.read_db(query, (search, search, search, search))
     db.connection.close()
     return render_template("datapage.html", raw_keys = get_raw_fields(), keys = get_formatted_fields(),
-                           values = tag_list,
-                           sortables = SORTABLE_VALUES, title = title)
+                           values = tag_list, sortables = SORTABLE_VALUES, title = title)
 
 
 if __name__ == '__main__':
