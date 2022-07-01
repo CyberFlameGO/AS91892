@@ -4,7 +4,7 @@ No rate-limiting has been added to the project, to mitigate server overload, and
 the data not changing. This site is not device-adaptive (e.g. for mobile devices).
 I also don't have the display of all data separated by pages, to limit the amount of work the browser has to do in
 one go. One other thing is that there's a lot of duplicated code where building on top of code would be more
-efficient.
+efficient (e.g. I could've made a query builder).
 """
 
 import sqlite3
@@ -75,10 +75,9 @@ class Database(object):
         return tuple(data)
 
 
-def get_entry(entry):
+def get_sort():
     """
-    Get all rows that match a field.
-    :param entry:
+    Get the sort value from the URL.
     :return:
     """
     sort = request.args.get('sort-by')
@@ -87,10 +86,19 @@ def get_entry(entry):
         sort = None
     if isinstance(sort, type(None)):
         sort = "card_number"
+    return sort
+
+
+def get_entry(returns: str, params: tuple):
+    """
+    Get all rows that match a field
+    :return:
+    """
+    order = get_sort()
     db = Database(DB_FILE)
     query = f"SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, " \
-            f"card_def, card_text FROM cards WHERE attribute = ? ORDER BY {sort} ASC"
-    entry_list = db.read_db(query, (entry.title(),))
+            f"card_def, card_text FROM cards WHERE {returns} ORDER BY {order} ASC"
+    entry_list = db.read_db(query, params)
     db.connection.close()
     return entry_list
 
@@ -131,14 +139,9 @@ def get_all_data() -> tuple[Any, ...]:
     This function is project-specific.
     :return
     """
-    sort = request.args.get('sort-by')
-    if sort not in SORTABLE_VALUES and not None:
-        print("Invalid value:", sort)
-        sort = None
-    if isinstance(sort, type(None)):
-        sort = "card_number"
+    order = get_sort()
     query = f"SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, card_def, " \
-            f"card_text FROM cards ORDER BY {sort} ASC"
+            f"card_text FROM cards ORDER BY {order} ASC"
     db = Database(DB_FILE)
     data = db.read_db(query)
     db.connection.close()
@@ -157,7 +160,8 @@ def render_index():
 @app.route('/table/<sortable>')
 def render_webpages(sortable):
     return render_template("datapage.html", raw_keys = get_raw_fields(), keys = get_formatted_fields(),
-                           values = get_entry(sortable), sortables = SORTABLE_VALUES, title = sortable)
+                           values = get_entry("attribute = ?", (sortable.title(),)), sortables = SORTABLE_VALUES,
+                           title = sortable)
 
 
 @app.route('/table')
@@ -181,12 +185,9 @@ def render_search():
     search = request.form['search']
     title = "Search for " + search
     # Search query
-    query = "SELECT card_name, rarity, type, card_text FROM cards WHERE card_name like ? OR card_number like ? OR " \
-            "type like ? OR rarity like ?"
     search = "%" + search + "%"
-    db = Database(DB_FILE)
-    tag_list = db.read_db(query, (search, search, search, search))
-    db.connection.close()
+    tag_list = get_entry("card_name like ? OR card_number like ? OR type like ? OR rarity like ?",
+                         (search, search, search, search))
     return render_template("datapage.html", raw_keys = get_raw_fields(), keys = get_formatted_fields(),
                            values = tag_list, sortables = SORTABLE_VALUES, title = title)
 
