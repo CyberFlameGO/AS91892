@@ -1,8 +1,8 @@
 ﻿{% extends "base.html" %}
 
 {% block main %}
-    <!-- TODO: finish -->
     <h2>{{ title }}</h2>
+    <body>
     <div id = "cards">
         {% for val in values %}
             <article>
@@ -12,6 +12,8 @@
                             {{ keys[loop.index - 1] }}:
                         <pre><code>{{ i }}</code></pre>
                         </p>
+                    {% elif i == val[-1] %}
+                        <p class = "last-val">{{ keys[loop.index - 1] }}: {{ i }}</p>
                     {% else %}
                         <p>{{ keys[loop.index - 1] }}: {{ i }}</p>
                     {% endif %}
@@ -19,4 +21,5 @@
             </article>
         {% endfor %}
     </div>
+    </body>
 {% endblock %}

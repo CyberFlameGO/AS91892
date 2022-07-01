@@ -1,14 +1,15 @@
 """
 Caveats:
 No rate-limiting has been added to the project, to mitigate server overload, and query returns aren't cached despite
-the data not changing.
+the data not changing. This site is not device-adaptive (e.g. for mobile devices).
 I also don't have the display of all data separated by pages, to limit the amount of work the browser has to do in
-one go.
+one go. One other thing is that there's a lot of duplicated code where building on top of code would be more
+efficient.
 """
 
 import sqlite3
+
 from flask import Flask, render_template, request
-from types import NoneType
 from typing import Any
 
 app = Flask(__name__)
@@ -80,9 +81,15 @@ def get_entry(entry):
     :param entry:
     :return:
     """
+    sort = request.args.get('sort-by')
+    if sort not in SORTABLE_VALUES and not None:
+        print("Invalid value:", sort)
+        sort = None
+    if isinstance(sort, type(None)):
+        sort = "card_number"
     db = Database(DB_FILE)
-    query = "SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, " \
-            "card_def, card_text FROM cards WHERE attribute = ?"
+    query = f"SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, " \
+            f"card_def, card_text FROM cards WHERE attribute = ? ORDER BY {sort} ASC"
     entry_list = db.read_db(query, (entry.title(),))
     db.connection.close()
     return entry_list
@@ -128,7 +135,7 @@ def get_all_data() -> tuple[Any, ...]:
     if sort not in SORTABLE_VALUES and not None:
         print("Invalid value:", sort)
         sort = None
-    if isinstance(sort, NoneType):
+    if isinstance(sort, type(None)):
         sort = "card_number"
     query = f"SELECT card_number, card_name, type, rarity, value, attribute, subtype, level, card_atk, card_def, " \
             f"card_text FROM cards ORDER BY {sort} ASC"
@@ -156,12 +163,12 @@ def render_webpages(sortable):
 @app.route('/table')
 def render_all():
     return render_template("datapage.html", raw_keys = get_raw_fields(), keys = get_formatted_fields(),
-                           values = get_all_data(), sortables = SORTABLE_VALUES, title = "All")
+                           values = get_all_data(), sortables = SORTABLE_VALUES, title = "Full dataset")
 
 
 @app.route('/card')
 def render_cards():
-    return render_template("card.html", keys = get_formatted_fields(), values = get_all_data(), title = "All")
+    return render_template("card.html", keys = get_formatted_fields(), values = get_all_data(), title = "All data")
 
 
 @app.route('/search', methods = ['GET', 'POST'])

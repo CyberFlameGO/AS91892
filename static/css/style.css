@@ -4,10 +4,10 @@ html {
 }
 
 body {
+
   width: auto;
   margin: auto;
   padding: 8px;
-  display: grid;
 }
 
 header {
@@ -110,12 +110,20 @@ footer p {
 
 article {
   text-align: center;
-  border-radius: 65536px;
-  padding: 2%;
-  /*width: 16%;*/
-  color: darkturquoise;
-  border: #2f4f4f;
-  background-color: darkslategrey;
+  padding: 20px;
+  color: blueviolet;
+  border: 2px dashed #2f4f4f;
+  background-color: deeppink;
   font-family: Garamond, serif;
-  font-size: large;
+  font-size: medium;
+}
+
+
+.last-val {
+  font-size: smaller;
+}
+
+#cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
